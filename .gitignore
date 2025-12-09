@@ -1,6 +1,6 @@
 # Binaries
 # binary name from README build instruction
-proxy
+/proxy
 
 # OS specific
 .DS_Store

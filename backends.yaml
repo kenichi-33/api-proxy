@@ -1,0 +1,57 @@
+backends:
+  - name: "mock-backend"
+    locations:
+      - path: "/api/v1"
+        backend_url: "http://localhost:8081"
+        timeout: 5s
+        methods: ["GET", "POST"]
+    auth:
+      type: "basic"
+      config:
+        username: "admin"
+        password: "password"
+    transform:
+      - type: "header"
+        req:
+          add_headers:
+            X-Proxy-Added: "true"
+          remove_headers:
+            - "X-Remove-Me"
+        res:
+          add_headers:
+            X-Proxy-Added: "true"
+          remove_headers:
+            - "X-Remove-Me"
+      - type: "casis"
+        req:
+           test: aaaa
+        res:
+           test: aaaa
+  - name: "mock-backend2"
+    locations:
+      - path: "/api/v2"
+        backend_url: "http://localhost:8081"
+        timeout: 5s
+        methods: ["GET", "POST"]
+    auth:
+      type: "basic"
+      config:
+        username: "admin"
+        password: "password"
+    transform:
+      - type: "header"
+        req:
+          add_headers:
+            X-Proxy-Added: "true"
+          remove_headers:
+            - "X-Remove-Me"
+        res:
+          add_headers:
+            X-Proxy-Added: "true"
+          remove_headers:
+            - "X-Remove-Me"
+      - type: "casis"
+        req:
+           test: aaaa
+        res:
+           test: aaaa

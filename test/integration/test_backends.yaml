@@ -1,0 +1,17 @@
+backends:
+  - name: "mock-backend"
+    locations:
+      - path: "/api/v1"
+        backend_url: "http://localhost:8081"
+        timeout: 5s
+        methods: ["GET", "POST"]
+    auth:
+      type: "basic"
+      config:
+        username: "admin"
+        password: "password"
+    transform:
+      - type: "header"
+        req:
+          add_headers:
+            X-Proxy-Added: "true"

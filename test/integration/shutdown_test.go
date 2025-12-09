@@ -24,7 +24,7 @@ func TestGracefulShutdown(t *testing.T) {
 	}
 	defer func() {
 		if cmdProxy.Process != nil {
-			cmdProxy.Process.Kill()
+			_ = cmdProxy.Process.Kill()
 		}
 	}()
 

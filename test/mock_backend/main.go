@@ -14,9 +14,11 @@ func main() {
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"message": "Hello from mock backend"}`))
+		_, _ = w.Write([]byte(`{"message": "Hello from mock backend"}`))
 	})
 
 	fmt.Println("Mock backend listening on :8081")
-	http.ListenAndServe(":8081", nil)
+	if err := http.ListenAndServe(":8081", nil); err != nil {
+		fmt.Printf("Server failed: %v\n", err)
+	}
 }

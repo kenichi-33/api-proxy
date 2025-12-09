@@ -27,11 +27,11 @@ func (h *AdminHandler) Health(w http.ResponseWriter, r *http.Request) {
 	if !h.healthManager.GetStatus() {
 		w.Header().Set("Connection", "close")
 		w.WriteHeader(http.StatusServiceUnavailable)
-		w.Write([]byte("Service Unavailable"))
+		_, _ = w.Write([]byte("Service Unavailable"))
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("OK"))
+	_, _ = w.Write([]byte("OK"))
 }
 
 func (h *AdminHandler) SetHealth(w http.ResponseWriter, r *http.Request) {
@@ -50,7 +50,7 @@ func (h *AdminHandler) SetHealth(w http.ResponseWriter, r *http.Request) {
 
 	h.healthManager.SetStatus(req.Healthy)
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]bool{"healthy": req.Healthy})
+	_ = json.NewEncoder(w).Encode(map[string]bool{"healthy": req.Healthy})
 }
 
 func (h *AdminHandler) Reload(w http.ResponseWriter, r *http.Request) {
@@ -66,5 +66,5 @@ func (h *AdminHandler) Reload(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]string{"status": "reloaded"})
+	_ = json.NewEncoder(w).Encode(map[string]string{"status": "reloaded"})
 }

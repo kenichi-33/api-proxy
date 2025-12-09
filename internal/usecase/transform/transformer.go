@@ -32,7 +32,9 @@ func NewTransformer() Transformer {
 func (t *transformer) TransformRequest(r *http.Request, transforms []domain.Transformation) error {
 	for _, tr := range transforms {
 		if strategy, ok := t.strategies[tr.Type]; ok {
-			strategy.TransformRequest(r, tr.Req)
+			if err := strategy.TransformRequest(r, tr.Req); err != nil {
+				return err
+			}
 		}
 	}
 	return nil
@@ -41,7 +43,9 @@ func (t *transformer) TransformRequest(r *http.Request, transforms []domain.Tran
 func (t *transformer) TransformResponse(res *http.Response, transforms []domain.Transformation) error {
 	for _, tr := range transforms {
 		if strategy, ok := t.strategies[tr.Type]; ok {
-			strategy.TransformResponse(res, tr.Res)
+			if err := strategy.TransformResponse(res, tr.Res); err != nil {
+				return err
+			}
 		}
 	}
 	return nil

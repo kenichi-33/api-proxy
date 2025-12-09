@@ -114,7 +114,11 @@ func (h *ProxyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 
 			// 4. Transformations (Request)
-			h.transformer.TransformRequest(req, matchedBackend.Transform)
+			if err := h.transformer.TransformRequest(req, matchedBackend.Transform); err != nil {
+				h.logger.ErrorContext(req.Context(), "Failed to transform request", "error", err)
+				// We can't easily abort here in Director without a custom Transport or panic.
+				// For now, we log it. The request might be malformed or missing headers.
+			}
 
 			// 5. Context for Timing
 			ctx := context.WithValue(req.Context(), backendStartTimeKey, time.Now())

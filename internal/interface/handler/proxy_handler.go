@@ -132,7 +132,9 @@ func (h *ProxyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				res.Header.Set("X-Backend-Duration", duration.String())
 			}
 
-			h.transformer.TransformResponse(res, matchedBackend.Transform)
+			if err := h.transformer.TransformResponse(res, matchedBackend.Transform); err != nil {
+				return err
+			}
 			return nil
 		},
 	}
